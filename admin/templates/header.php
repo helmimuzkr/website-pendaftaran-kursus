@@ -1,11 +1,14 @@
-<!-- Connection -->
-<?php require('../config/connection.php') ?>
+<?php 
+    /* Connection */
+    require('../config/connection.php');
 
-<!-- Login -->
-<?php require('middleware/login.php') ?>
+    /* Login */
+    require('middleware/login.php');
 
-<!-- Middleware -->
-<?php
+    /* Functions */
+    require('functions/function.php');
+
+    /* Middleware */
     if(isset($_SESSION['auth'])) {
         
     }else{

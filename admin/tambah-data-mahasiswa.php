@@ -17,6 +17,7 @@
                 $post = mysqli_query($conn, $query);
                 
                 if($post) {
+                    
                     echo('Data Berhasil Ditambahkan!');
                     header('location:data-mahasiswa.php');
                 }else{

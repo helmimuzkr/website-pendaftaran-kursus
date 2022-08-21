@@ -8,6 +8,7 @@
         <!-- Tambah -->
         <?php 
             if(isset($_POST['tambah'])){
+                $_SESSION['keyword'] = null;
                 $nama = $_POST['nama_kursus'];
                 $keterangan = $_POST['keterangan'];
                 $mulai_kursus = $_POST['mulai_kursus'];
@@ -18,11 +19,19 @@
                 $post = mysqli_query($conn, $query);
                 
                 if($post) {
-                    echo('Data Berhasil Ditambahkan!');
-                    header('location:index.php');
+                    echo '
+                        <script>
+                            alert("Data berhasil ditambahkan!");
+                            location.replace("index.php");
+                        </script>
+                    ';
                 }else{
-                    echo('Error');
-                    header('location:index.php');
+                    echo '
+                        <script>
+                            alert("Gagal menambahkan data!");
+                            location.replace("index.php");
+                        </script>
+                    ';
                 }
             }
         ?>

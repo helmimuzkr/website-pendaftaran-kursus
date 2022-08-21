@@ -20,7 +20,7 @@
             </a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="index.php" class="nav-link">Kursus</a>
+                    <a href="index.php"  class="nav-link">Kursus</a>
                 </li>
                 <li class="nav-item">
                     <a href="data-mahasiswa.php" class="nav-link">Data Mahasiswa</a>
