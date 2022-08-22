@@ -1,8 +1,13 @@
-<!-- Connection -->
-<?php require('config/connection.php') ?>
 
-<!-- Login -->
-<?php require('middleware/login.php') ?>
+<?php 
+// Connection
+require('config/connection.php');
+// Auth
+require('middleware/login.php');
+// Function
+require('functions/function.php')
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">

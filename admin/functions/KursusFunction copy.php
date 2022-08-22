@@ -3,24 +3,35 @@
     /* getData */
     function get($query) {
         global $conn;
-        $rows = [];
 
         $result = mysqli_query($conn, $query);
-        
-        while($row = mysqli_fetch_assoc($result)) {
-            $rows[] = $row;
-        }
 
-        return $rows;
+        return $result;
     }
 
-    /* Search and Pagination */
+    /* Search */
+/*     function search($keyword) {
+
+
+        $query = "SELECT * FROM kursus 
+                    WHERE nama_kursus 
+                    LIKE '%$keyword%'";
+
+        return get($query);
+    } */
+
+    /* Check Data Search */
+    function search($keyword) {
+        return get("SELECT * FROM kursus WHERE nama_kursus LIKE '%$keyword%'");
+    }
+
+    /* Pagination */
     function paginate($keyword = null) {
         $paginate = [];
 
         $paginate['dataPerPage'] = 6;
         $paginate['currentPage'] =  (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
-        $paginate['totalData'] = count(get("SELECT * FROM kursus WHERE nama_kursus LIKE '%$keyword%'"));
+        $paginate['totalData'] = mysqli_num_rows(search($keyword));
         $paginate['totalPages'] = ceil($paginate['totalData'] / $paginate['dataPerPage']);
 
         /* dataAwal index/dataAwal data = Halaman aktif * Data perpage - Data Perpage */

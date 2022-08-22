@@ -2,21 +2,18 @@
 <?php require('templates/header.php') ?>
 
 <?php 
-    // set session keyword null ketika menekan refresh button
+    /* set session keyword null ketika menekan refresh button */
     if(isset($_POST['btnRefresh'])) {
         $_SESSION['keyword'] = null;
     }
 
-    // cek data yang dicari
+    /* cek data yang dicari */
     if(isset($_POST['btnCari'])) {
         $_SESSION['keyword'] = null;
-        $keyword = $_POST['keyword'];
-        $search = count(get("SELECT * FROM kursus WHERE nama_kursus LIKE '%$keyword%'"));
+        $searchCheck = search($_POST['keyword']);
 
-        // Check Data, kalau data lebih dari 0 atau ada, maka masukan data Post ke Session dan redirect ke index
-        if($search > 0){
+        if(mysqli_num_rows($searchCheck) > 0){
             $_SESSION['keyword'] = $_POST['keyword'];
-            header("location:index.php");
         }else {
             echo '
                 <script>
@@ -28,19 +25,16 @@
         }
     }
 
-    // ambil data dari fungsi paginate lalu dimasukan ke dalam var baru
+    /* Mengambil data dari fungsi paginate */
     $paginate = (isset($_SESSION['keyword'])) ? paginate($_SESSION['keyword']) : paginate();
 
-    // Insialisasi hasil query result kedalam variabel kursus
+    /* Insialisasi hasil query kedalam variabel kursus*/
     $kursus = $paginate['result'];
 
-    // Jumlah data kursus
-    $totalData = count($kursus);
-
-/*     // saat mencari data di posisi current page lalu data ditemukan tetapi = 0, maka paksa redirect ke page 1
-    if($totalData == 0){
+    /* saat mencari data di posisi current page active lalu data ditemukan tetapi = 0, maka paksa redirect ke page 1 */
+    if(mysqli_num_rows($kursus) == 0){
         header("location:?page=1");
-    } */
+    }
 
 ?>
 
@@ -85,7 +79,7 @@
                                 <tbody>
                                     <?php 
                                         $no = 1 + $paginate['dataAwal'];
-                                        forEach($kursus as $item) :
+                                        while($item = mysqli_fetch_assoc($kursus)) :
                                     ?>
                                     <tr>
                                         <td><?php echo $no++ ?></td>
@@ -100,7 +94,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <?php endforeach ?>
+                                    <?php endwhile ?>
                                 </tbody>
                             </table>
                         </div>
@@ -110,7 +104,7 @@
                         <div class="col-md-6">
                         <?php 
                             echo "
-                                    <p>Showing ". $paginate["dataAwal"] + 1 ." to ". $paginate["dataAwal"] + $totalData ." of $paginate[totalData] entries</p>
+                                    <p>Showing ". $paginate["dataAwal"] + 1 ." to ". $paginate["dataAwal"] + mysqli_num_rows($kursus) ." of $paginate[totalData] entries</p>
                             ";
                         ?>
                             
@@ -139,7 +133,7 @@
                                         <?php endif; ?>
                                     <?php endfor; ?>
                                     <?php if($paginate['currentPage']) : ?>
-                                        <?php if($totalData < $paginate['dataPerPage']) : ?>
+                                        <?php if(mysqli_num_rows($kursus) < $paginate['dataPerPage']) : ?>
                                             <li class="page-item disabled">
                                                 <a class="page-link" href="?page=<?= $paginate['currentPage'] + 1 ?>" aria-label="Previous" >
                                                     <span aria-hidden="true">&raquo;</span>

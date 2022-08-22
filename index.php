@@ -26,27 +26,26 @@
                     <div class="text-center">
                         <h2 class="fw-bold">Kursus</h2>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row">
                         <?php 
-                            $query = "SELECT * FROM kursus ORDER BY id DESC";
-                            $get = mysqli_query($conn, $query);
+                            $items = getData("SELECT * FROM courses ORDER BY id DESC");
 
-                            while($data = mysqli_fetch_array($get)) :
+                            forEach($items as $item) :
                         ?>
                         <div class="col-md-4 mt-3">
                             <div class="card kursus">
-                                <h3 class="px-4 pt-3"><?php echo $data['nama_kursus'] ?></h3>
+                                <h3 class="px-4 pt-3"><?php echo $item['nama_kursus'] ?></h3>
                                 <div class="garis"></div>
                                 <div class="card-body px-4">
                                     <p class="card-title">Jadwal Pelatihan</p>
-                                    <p class="card-title"><?= $data['mulai_kursus'] ?> s/d <?php echo $data['akhir_kursus'] ?></p>
+                                    <p class="card-title"><?= $item['start_course'] ?> s/d <?php echo $item['end_course'] ?></p>
                                     <div class="text-end mt-2">
-                                        <a href="daftar-kursus.php?id=<?= $data['id'] ?>" class="btn btn-primary">Daftar Kursus</a>
+                                        <a href="daftar-kursus.php?id=<?= $item['id'] ?>" class="btn btn-primary">Daftar Kursus</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <?php endwhile ?>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>

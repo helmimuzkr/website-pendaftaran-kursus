@@ -1,11 +1,7 @@
 <?php 
-    $id = $_SESSION['id'];
+    $user_id = $_SESSION['id'];
 
-    $query = "SELECT * FROM data_mahasiswa WHERE id = '$id'";
-    $get = mysqli_query($conn, $query);
-
-    $data = mysqli_fetch_array($get);
-
+    $items = getData("SELECT * FROM users WHERE id = '$user_id'")['0'];
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light">
@@ -21,7 +17,7 @@
                 <li class="nav-item">
                     <a href="kursusku.php" class="nav-link">Kursusku</a>
                 </li>
-                <li class="nav-item"><div class="nav-link">Hi, <?php echo $data['nama'] ?>!</div></li>
+                <li class="nav-item"><div class="nav-link">Hi, <?php echo $items['nama'] ?>!</div></li>
                 <li class="nav-item"><a href="middleware/logout.php" class=" btn btn-primary">Logout</a></li>
             </ul>
         </div>
